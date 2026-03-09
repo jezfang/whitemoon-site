@@ -1,0 +1,36 @@
+{{ define "main" }}
+
+<section class="section" style="padding-top: 5rem;">
+  <div class="container">
+    <span class="section-label">{{ .Section }}</span>
+    <h2 class="section-title">{{ .Title }}</h2>
+
+    {{ if eq .Section "testimonials" }}
+    <div class="testimonial-grid">
+      {{ range sort .RegularPages "Date" "desc" }}
+      <div class="testimonial-card">
+        <p class="testimonial-quote">{{ .Params.quote }}</p>
+        <span class="testimonial-author">{{ .Params.author }}{{ with .Params.event }} — {{ . }}{{ end }}</span>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    <div class="card-grid">
+      {{ range sort .RegularPages "Date" "desc" }}
+      <a href="{{ .Permalink }}" class="card">
+        {{ with .Params.cover }}
+        <div class="card-image">
+          <img src="{{ . }}" alt="{{ $.Title }}">
+        </div>
+        {{ end }}
+        <h3 class="card-title">{{ .Title }}</h3>
+        <span class="card-meta">{{ .Date.Format "2006.01" }}</span>
+        {{ with .Params.excerpt }}<p class="card-excerpt">{{ . }}</p>{{ end }}
+      </a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+{{ end }}

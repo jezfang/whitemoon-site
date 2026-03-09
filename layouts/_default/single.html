@@ -1,0 +1,21 @@
+{{ define "main" }}
+
+<div class="single-header">
+  <div class="container">
+    <span class="section-label">{{ .Section }}</span>
+    <h1>{{ .Title }}</h1>
+    <div class="single-meta">{{ .Date.Format "2006.01.02" }}{{ with .Params.location }} — {{ . }}{{ end }}</div>
+  </div>
+</div>
+
+{{ with .Params.cover }}
+<div class="single-cover">
+  <img src="{{ . }}" alt="{{ $.Title }}">
+</div>
+{{ end }}
+
+<div class="single-content container">
+  {{ .Content }}
+</div>
+
+{{ end }}

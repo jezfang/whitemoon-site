@@ -1,0 +1,105 @@
+{{ define "main" }}
+
+{{ $works := first 3 (sort (where .Site.RegularPages "Section" "works") "Date" "desc") }}
+{{ $workshop := first 2 (sort (where .Site.RegularPages "Section" "workshop") "Date" "desc") }}
+{{ $events := first 2 (sort (where .Site.RegularPages "Section" "events") "Date" "desc") }}
+
+<!-- Gallery Viewer — Vesica Piscis -->
+<div class="gallery-viewer" id="gallery-viewer">
+
+  <!-- Two circles — photo lives inside, they move together -->
+  <div class="gv-photo">
+    <!-- Opening title — inside gv-photo to share coordinate system with circles -->
+    <div class="gv-brand" id="gv-brand">WHITE MOON</div>
+    <div class="vp-circle vp-circle--l" id="vp-circle-l"></div>
+    <div class="vp-circle vp-circle--r" id="vp-circle-r"></div>
+    <div class="gv-photo-inner" id="gv-photos">
+      <img src="/images/網站照片/DSC09926.jpg" alt="" class="gv-img active" data-index="0">
+      {{ range $i, $p := $works }}
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add $i 1 }}">
+      {{ end }}
+      {{ range $i, $p := $workshop }}
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) }}">
+      {{ end }}
+      {{ range $i, $p := $events }}
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}">
+      {{ end }}
+    </div>
+  </div>
+
+  <!-- Text slides -->
+  <div class="gv-text">
+    <div class="gv-text-track" id="gv-text-track">
+
+      <!-- Slide 0: Hero -->
+      <div class="gv-slide active" data-index="0">
+        <h2 class="gv-title">超越五感框架的體驗</h2>
+        <p class="gv-desc">當時下人們對聲音的想像，尚停留在聽覺感官刺激與娛樂之時，WHITE MOON 選擇跳脫傳統框架，以聲音採集引導潛意識體驗。</p>
+      </div>
+
+      {{ range $i, $p := $works }}
+      <div class="gv-slide" data-index="{{ add $i 1 }}">
+        <span class="gv-label">Works</span>
+        <h2 class="gv-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <div class="gv-meta">{{ .Date.Format "2006" }}{{ with .Params.location }} — {{ . }}{{ end }}</div>
+        {{ with .Params.excerpt }}<p class="gv-desc">{{ . }}</p>{{ end }}
+        <a href="{{ .Permalink }}" class="gv-link">View Project</a>
+      </div>
+      {{ end }}
+
+      {{ range $i, $p := $workshop }}
+      <div class="gv-slide" data-index="{{ add (add $i 1) (len $works) }}">
+        <span class="gv-label">Workshop</span>
+        <h2 class="gv-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <div class="gv-meta">{{ .Date.Format "2006" }}</div>
+        {{ with .Params.excerpt }}<p class="gv-desc">{{ . }}</p>{{ end }}
+        <a href="{{ .Permalink }}" class="gv-link">View Workshop</a>
+      </div>
+      {{ end }}
+
+      {{ range $i, $p := $events }}
+      <div class="gv-slide" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}">
+        <span class="gv-label">Events</span>
+        <h2 class="gv-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <div class="gv-meta">{{ .Date.Format "2006.01" }}{{ with .Params.location }} — {{ . }}{{ end }}</div>
+        {{ with .Params.excerpt }}<p class="gv-desc">{{ . }}</p>{{ end }}
+        <a href="{{ .Permalink }}" class="gv-link">View Event</a>
+      </div>
+      {{ end }}
+
+    </div>
+  </div>
+
+  <!-- Moon phase indicator (replaces progress bar) -->
+  <div class="moon-phases" id="moon-phases"></div>
+
+</div>
+
+<!-- Testimonials -->
+<section class="testimonials-section" id="testimonials-section">
+  <div class="container">
+    <span class="section-label">Testimonials</span>
+    <h2 class="section-title">參與者心得</h2>
+    <div class="testimonial-grid">
+      {{ $testimonials := where .Site.RegularPages "Section" "testimonials" }}
+      {{ range sort $testimonials "Date" "desc" }}
+      <div class="testimonial-card">
+        <p class="testimonial-quote-v">{{ .Params.quote }}</p>
+        <span class="testimonial-author-v">{{ .Params.author }}{{ with .Params.event }} — {{ . }}{{ end }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Booking CTA -->
+<section class="booking-cta">
+  <div class="container" style="text-align: center;">
+    <span class="section-label">Booking</span>
+    <h2 style="margin-bottom: 1rem;">一對一催眠預約</h2>
+    <p style="margin: 0 auto 2.5rem;">每一次催眠，都是一場與潛意識的深度對話。</p>
+    <a href="/booking/" class="gv-link">預約體驗</a>
+  </div>
+</section>
+
+{{ end }}
