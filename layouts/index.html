@@ -1,8 +1,7 @@
 {{ define "main" }}
 
 {{ $works := first 3 (sort (where .Site.RegularPages "Section" "works") "Date" "desc") }}
-{{ $workshop := first 2 (sort (where .Site.RegularPages "Section" "workshop") "Date" "desc") }}
-{{ $events := first 2 (sort (where .Site.RegularPages "Section" "events") "Date" "desc") }}
+{{ $experiences := first 3 (sort (where .Site.RegularPages "Section" "experiences") "Date" "desc") }}
 
 <!-- Gallery Viewer — Vesica Piscis -->
 <div class="gallery-viewer" id="gallery-viewer">
@@ -18,11 +17,8 @@
       {{ range $i, $p := $works }}
       <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add $i 1 }}" loading="lazy">
       {{ end }}
-      {{ range $i, $p := $workshop }}
+      {{ range $i, $p := $experiences }}
       <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) }}" loading="lazy">
-      {{ end }}
-      {{ range $i, $p := $events }}
-      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}" loading="lazy">
       {{ end }}
     </div>
   </div>
@@ -47,23 +43,13 @@
       </div>
       {{ end }}
 
-      {{ range $i, $p := $workshop }}
+      {{ range $i, $p := $experiences }}
       <div class="gv-slide" data-index="{{ add (add $i 1) (len $works) }}">
-        <span class="gv-label">Workshop</span>
-        <h2 class="gv-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-        <div class="gv-meta">{{ .Date.Format "2006" }}</div>
-        {{ with .Params.excerpt }}<p class="gv-desc">{{ . }}</p>{{ end }}
-        <a href="{{ .Permalink }}" class="gv-link">View Workshop</a>
-      </div>
-      {{ end }}
-
-      {{ range $i, $p := $events }}
-      <div class="gv-slide" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}">
-        <span class="gv-label">Events</span>
+        <span class="gv-label">Experience</span>
         <h2 class="gv-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
         <div class="gv-meta">{{ .Date.Format "2006.01" }}{{ with .Params.location }} — {{ . }}{{ end }}</div>
         {{ with .Params.excerpt }}<p class="gv-desc">{{ . }}</p>{{ end }}
-        <a href="{{ .Permalink }}" class="gv-link">View Event</a>
+        <a href="{{ .Permalink }}" class="gv-link">View Experience</a>
       </div>
       {{ end }}
 

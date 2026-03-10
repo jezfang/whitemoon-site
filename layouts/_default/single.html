@@ -2,7 +2,7 @@
 
 <div class="single-header">
   <div class="container">
-    <a href="/{{ .Section }}/" class="back-link">← {{ if eq .Section "works" }}Works{{ else if eq .Section "workshop" }}Workshop{{ else if eq .Section "events" }}Events{{ else }}Back{{ end }}</a>
+    <a href="/{{ .Section }}/" class="back-link">← {{ if eq .Section "works" }}Works{{ else if eq .Section "experiences" }}Experiences{{ else }}Back{{ end }}</a>
     <span class="section-label">{{ .Section }}</span>
     <h1>{{ .Title }}</h1>
     <div class="single-meta">{{ .Date.Format "2006.01.02" }}{{ with .Params.location }} — {{ . }}{{ end }}</div>

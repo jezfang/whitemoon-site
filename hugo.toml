@@ -19,21 +19,17 @@ paginate = 12
     url = '/works/'
     weight = 2
   [[menus.main]]
-    name = 'Workshop'
-    url = '/workshop/'
+    name = 'Experiences'
+    url = '/experiences/'
     weight = 3
-  [[menus.main]]
-    name = 'Events'
-    url = '/events/'
-    weight = 4
   [[menus.main]]
     name = 'Testimonials'
     url = '/testimonials/'
-    weight = 5
+    weight = 4
   [[menus.main]]
     name = 'Booking'
     url = '/booking/'
-    weight = 6
+    weight = 5
 
 [markup]
   [markup.goldmark]
