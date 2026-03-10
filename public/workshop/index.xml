@@ -1,40 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>工作坊 on WHITE MOON</title>
-    <link>http://192.168.0.77:1313/workshop/</link>
-    <description>Recent content in 工作坊 on WHITE MOON</description>
-    <generator>Hugo</generator>
-    <language>zh-TW</language>
-    <lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://192.168.0.77:1313/workshop/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>月潮之境</title>
-      <link>http://192.168.0.77:1313/workshop/moon-tide/</link>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>http://192.168.0.77:1313/workshop/moon-tide/</guid>
-      <description>&lt;p&gt;月潮之境依循月相週期設計，在新月與滿月時分別展開不同主題的聲音體驗。參與者將在月光的節奏中，感受意識隨潮汐起落的自然韻律。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Womb Wisdom 子宮智慧</title>
-      <link>http://192.168.0.77:1313/workshop/womb-wisdom/</link>
-      <pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://192.168.0.77:1313/workshop/womb-wisdom/</guid>
-      <description>&lt;p&gt;Womb Wisdom 是一場結合聲音採集與身體感知的沉浸式工作坊。透過特製的聲景引導，參與者將在安全的空間中，與自身最深層的智慧重新連結。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>兒童聲音探索工作坊</title>
-      <link>http://192.168.0.77:1313/workshop/kids-sound-exploration/</link>
-      <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
-      <guid>http://192.168.0.77:1313/workshop/kids-sound-exploration/</guid>
-      <description>&lt;p&gt;孩子的耳朵是最敏銳的。&lt;/p&gt;&#xA;&lt;p&gt;在這場工作坊中，孩子們戴上耳機，聆聽各種環境音與自然聲響，然後用畫筆把「聽到的東西」畫下來。&lt;/p&gt;&#xA;&lt;p&gt;沒有對錯，沒有標準答案。海浪的聲音可能是藍色的螺旋，蟲鳴可能是綠色的小點點。每一幅畫都是一個孩子獨特的聽覺世界。&lt;/p&gt;&#xA;&lt;p&gt;這是 WHITE MOON 與教育單位合作的系列計畫之一，探索聲音如何成為兒童美感教育的入口。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>森林口琴共鳴</title>
-      <link>http://192.168.0.77:1313/workshop/forest-harmonica/</link>
-      <pubDate>Mon, 01 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://192.168.0.77:1313/workshop/forest-harmonica/</guid>
-      <description>&lt;p&gt;每個人的聲音都是獨一無二的。&lt;/p&gt;&#xA;&lt;p&gt;在這場工作坊中，參與者戴著耳機，在森林裡用口琴吹出自己的聲音。耳機中同時播放著森林的環境音——鳥鳴、風聲、溪水——你的口琴聲與大自然的聲音即時混合在一起。&lt;/p&gt;&#xA;&lt;p&gt;那一刻，你不再是旁觀者，而是森林交響樂的一部分。&lt;/p&gt;&#xA;&lt;p&gt;許多參與者說，這是他們第一次真正「聽見」自己。&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>工作坊 on WHITE MOON</title><link>https://whitemoonboomboom.xyz/workshop/</link><description>Recent content in 工作坊 on WHITE MOON</description><generator>Hugo</generator><language>zh-TW</language><lastBuildDate>Mon, 01 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://whitemoonboomboom.xyz/workshop/index.xml" rel="self" type="application/rss+xml"/><item><title>月潮之境</title><link>https://whitemoonboomboom.xyz/workshop/moon-tide/</link><pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate><guid>https://whitemoonboomboom.xyz/workshop/moon-tide/</guid><description>&lt;p&gt;月潮之境依循月相週期設計，在新月與滿月時分別展開不同主題的聲音體驗。參與者將在月光的節奏中，感受意識隨潮汐起落的自然韻律。&lt;/p&gt;</description></item><item><title>Womb Wisdom 子宮智慧</title><link>https://whitemoonboomboom.xyz/workshop/womb-wisdom/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><guid>https://whitemoonboomboom.xyz/workshop/womb-wisdom/</guid><description>&lt;p&gt;Womb Wisdom 是一場結合聲音採集與身體感知的沉浸式工作坊。透過特製的聲景引導，參與者將在安全的空間中，與自身最深層的智慧重新連結。&lt;/p&gt;</description></item><item><title>兒童聲音探索工作坊</title><link>https://whitemoonboomboom.xyz/workshop/kids-sound-exploration/</link><pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate><guid>https://whitemoonboomboom.xyz/workshop/kids-sound-exploration/</guid><description>&lt;p&gt;孩子的耳朵是最敏銳的。&lt;/p&gt;
+&lt;p&gt;在這場工作坊中，孩子們戴上耳機，聆聽各種環境音與自然聲響，然後用畫筆把「聽到的東西」畫下來。&lt;/p&gt;
+&lt;p&gt;沒有對錯，沒有標準答案。海浪的聲音可能是藍色的螺旋，蟲鳴可能是綠色的小點點。每一幅畫都是一個孩子獨特的聽覺世界。&lt;/p&gt;
+&lt;p&gt;這是 WHITE MOON 與教育單位合作的系列計畫之一，探索聲音如何成為兒童美感教育的入口。&lt;/p&gt;</description></item><item><title>森林口琴共鳴</title><link>https://whitemoonboomboom.xyz/workshop/forest-harmonica/</link><pubDate>Mon, 01 Apr 2024 00:00:00 +0000</pubDate><guid>https://whitemoonboomboom.xyz/workshop/forest-harmonica/</guid><description>&lt;p&gt;每個人的聲音都是獨一無二的。&lt;/p&gt;
+&lt;p&gt;在這場工作坊中，參與者戴著耳機，在森林裡用口琴吹出自己的聲音。耳機中同時播放著森林的環境音——鳥鳴、風聲、溪水——你的口琴聲與大自然的聲音即時混合在一起。&lt;/p&gt;
+&lt;p&gt;那一刻，你不再是旁觀者，而是森林交響樂的一部分。&lt;/p&gt;
+&lt;p&gt;許多參與者說，這是他們第一次真正「聽見」自己。&lt;/p&gt;</description></item></channel></rss>
