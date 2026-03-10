@@ -16,13 +16,13 @@
     <div class="gv-photo-inner" id="gv-photos">
       <img src="/images/網站照片/DSC09926.jpg" alt="" class="gv-img active" data-index="0">
       {{ range $i, $p := $works }}
-      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add $i 1 }}">
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add $i 1 }}" loading="lazy">
       {{ end }}
       {{ range $i, $p := $workshop }}
-      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) }}">
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) }}" loading="lazy">
       {{ end }}
       {{ range $i, $p := $events }}
-      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}">
+      <img src="{{ .Params.cover }}" alt="{{ .Title }}" class="gv-img" data-index="{{ add (add $i 1) (len $works) (len $workshop) }}" loading="lazy">
       {{ end }}
     </div>
   </div>
@@ -94,11 +94,29 @@
 
 <!-- Booking CTA -->
 <section class="booking-cta">
+  <div class="booking-cta-inner">
+    <div class="booking-cta-circle"></div>
+    <div class="booking-cta-content">
+      <span class="section-label">Booking</span>
+      <h2>一對一催眠預約</h2>
+      <p>每一次催眠，都是一場與潛意識的深度對話。</p>
+      <a href="/booking/" class="gv-link">預約體驗</a>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section">
   <div class="container" style="text-align: center;">
-    <span class="section-label">Booking</span>
-    <h2 style="margin-bottom: 1rem;">一對一催眠預約</h2>
-    <p style="margin: 0 auto 2.5rem;">每一次催眠，都是一場與潛意識的深度對話。</p>
-    <a href="/booking/" class="gv-link">預約體驗</a>
+    <span class="section-label">Newsletter</span>
+    <h2 class="section-title">訂閱電子報</h2>
+    <p style="margin: 0 auto 2rem;">接收最新活動資訊與聲音探索靈感。</p>
+    <form class="newsletter-form" action="https://formspree.io/f/YOUR_NEWSLETTER_ID" method="POST">
+      <div class="newsletter-input-wrap">
+        <input type="email" name="email" required placeholder="your@email.com" class="newsletter-input">
+        <button type="submit" class="newsletter-submit">訂閱</button>
+      </div>
+    </form>
   </div>
 </section>
 

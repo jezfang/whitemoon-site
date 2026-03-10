@@ -1,4 +1,8 @@
 <footer class="site-footer">
+  <div class="footer-vp" aria-hidden="true">
+    <div class="footer-vp-circle footer-vp-l"></div>
+    <div class="footer-vp-circle footer-vp-r"></div>
+  </div>
   <div class="footer-left">
     &copy; {{ now.Year }} White Moon
   </div>
@@ -40,8 +44,8 @@ window.addEventListener('load', () => {
         if (!entry.isIntersecting) return;
         const img = entry.target.querySelector('img');
         if (!img) return;
-        gsap.to(img, { filter: 'grayscale(0) brightness(1)', duration: 4, ease: 'power2.out' });
-        gsap.to(img, { scale: 1, duration: 5, ease: 'power3.out' });
+        gsap.to(img, { filter: 'grayscale(0) brightness(1)', duration: 2.5, ease: 'power2.out' });
+        gsap.to(img, { scale: 1, duration: 3, ease: 'power3.out' });
         observer.unobserve(entry.target);
       });
     }, { threshold: 0.05 });
@@ -109,29 +113,35 @@ window.addEventListener('load', () => {
     gsap.set(photoInner, { opacity: 0 });
 
     if (!sessionStorage.getItem('page-transition')) {
-      // 0. WHITE MOON text fades in quickly
-      gsap.to(brand, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.2 });
+      // Opening animation — 1.5s total
+      // 0. WHITE MOON text fades in
+      gsap.to(brand, { opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1 });
 
-      // 1. WHITE MOON fades out quickly before circles move
-      gsap.to(brand, { opacity: 0, duration: 0.4, ease: 'power1.in', delay: 1.0 });
+      // 1. WHITE MOON fades out before circles move
+      gsap.to(brand, { opacity: 0, duration: 0.25, ease: 'power1.in', delay: 0.5 });
 
       // 2. Circles cross and swap positions
       if (vpL && vpR) {
-        gsap.to(vpL, { x: swapDist, duration: 1.5, ease: 'power2.inOut', delay: 1.4 });
-        gsap.to(vpR, { x: -swapDist, duration: 1.5, ease: 'power2.inOut', delay: 1.4 });
+        gsap.to(vpL, { x: swapDist, duration: 0.8, ease: 'power2.inOut', delay: 0.7 });
+        gsap.to(vpR, { x: -swapDist, duration: 0.8, ease: 'power2.inOut', delay: 0.7 });
       }
 
-      // 3. After swap done, photo fades in quickly
-      gsap.to(photoInner, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 2.9 });
+      // 3. Photo fades in as circles finish
+      gsap.to(photoInner, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 1.3 });
     } else {
+      // Coming from page transition: instant show
       gsap.set(photoInner, { opacity: 1 });
+      if (vpL && vpR) {
+        gsap.set(vpL, { x: swapDist });
+        gsap.set(vpR, { x: -swapDist });
+      }
     }
 
     // Initial text — appears together with photo
     gsap.set(slides[0], { x: 0, opacity: 0 });
     gsap.to(slides[0], {
-      opacity: 1, duration: 0.6, ease: 'power2.out',
-      delay: sessionStorage.getItem('page-transition') ? 0.3 : 2.9
+      opacity: 1, duration: 0.5, ease: 'power2.out',
+      delay: sessionStorage.getItem('page-transition') ? 0.3 : 1.3
     });
 
     function showSlide(index, direction) {
@@ -229,38 +239,41 @@ window.addEventListener('load', () => {
       }
     }, { passive: false });
 
-    // Touch support — block native scroll inside gallery
+    // Touch support — pure JS control, no touch-action CSS
     let touchStartY = 0;
-    viewer.style.touchAction = 'none';
 
     viewer.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     viewer.addEventListener('touchmove', (e) => {
-      if (locked) e.preventDefault();
+      if (!locked) return; // unlocked → let browser scroll normally
+      const diff = touchStartY - e.touches[0].clientY;
+      // Last slide + swiping up → don't block, let page scroll out
+      if (current >= total - 1 && diff > 0) return;
+      // First slide + swiping down → don't block either
+      if (current === 0 && diff < 0) return;
+      e.preventDefault();
     }, { passive: false });
 
     viewer.addEventListener('touchend', (e) => {
-      if (!locked || busy) return;
+      if (!locked) return;
       const diff = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(diff) > 50) {
         if (diff > 0) {
-          if (current < total - 1) {
-            showSlide(current + 1, 'forward');
-          } else {
-            // Exit gallery — unlock and smoothly scroll, no momentum
+          if (current >= total - 1) {
+            // Last slide — unlock gallery
             locked = false;
-            viewer.style.touchAction = 'auto';
-            window.scrollTo({ top: viewer.offsetHeight, behavior: 'smooth' });
+          } else if (!busy) {
+            showSlide(current + 1, 'forward');
           }
         } else {
-          if (current > 0) showSlide(current - 1, 'backward');
+          if (!busy && current > 0) showSlide(current - 1, 'backward');
         }
       }
     }, { passive: true });
 
-    // Touch: re-lock when scrolling back to top
+    // Re-lock when scrolling back to top
     let pageTouchStartY = 0;
     document.addEventListener('touchstart', (e) => {
       if (locked) return;
@@ -269,10 +282,8 @@ window.addEventListener('load', () => {
     document.addEventListener('touchend', (e) => {
       if (locked) return;
       const diff = pageTouchStartY - e.changedTouches[0].clientY;
-      // Swiping down (pulling page up) near top of page → re-lock gallery
       if (diff < -50 && window.scrollY <= 5) {
         locked = true;
-        viewer.style.touchAction = 'none';
         window.scrollTo({ top: 0 });
         forceShowCurrent();
       }
@@ -312,7 +323,7 @@ window.addEventListener('load', () => {
     sessionStorage.removeItem('page-transition');
     // Cover is on screen, slide it out to the left
     gsap.set(cover, { x: '0%' });
-    gsap.to(cover, { x: '-100%', duration: 0.8, ease: 'power3.inOut', delay: 0.1 });
+    gsap.to(cover, { x: '-100%', duration: 0.5, ease: 'power3.inOut', delay: 0.05 });
   }
 
   document.querySelectorAll('a[href]').forEach(link => {
@@ -326,7 +337,7 @@ window.addEventListener('load', () => {
       // Slide in from right to cover screen
       gsap.set(cover, { x: '100%' });
       gsap.to(cover, {
-        x: '0%', duration: 0.6, ease: 'power3.inOut',
+        x: '0%', duration: 0.4, ease: 'power3.inOut',
         onComplete: () => { window.location.href = href; }
       });
     });
