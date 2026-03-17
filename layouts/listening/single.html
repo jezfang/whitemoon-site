@@ -1,0 +1,321 @@
+{{ define "main" }}
+
+<!-- NAV -->
+<nav>
+  <a href="{{ .Site.BaseURL }}" class="nav-brand">White Moon</a>
+  <span class="nav-label">Listening Space</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-image"{{ with .Params.hero_image }} style="background: url('{{ . }}') center/cover no-repeat;"{{ end }}></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="issue-number">vol. {{ .Params.issue }} — {{ .Date.Format "2006.01" }}</div>
+    <h1 class="hero-title">{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="hero-subtitle">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<!-- LISTENING SECTION -->
+<section class="listening-section">
+
+  <!-- Headphone Reminder -->
+  <div class="listen-prep">
+    <svg class="listen-prep-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" color="#7a756e">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/>
+    </svg>
+    <span class="listen-prep-text">
+      建議戴上耳機，找一個安靜的地方。<br>
+      如果可以的話，閉上眼睛聆聽。
+    </span>
+  </div>
+
+  <!-- Main Audio Player -->
+  {{ with .Params.main_track }}
+  <div class="player-container">
+    <div class="player" id="mainPlayer">
+      <div class="player-title-row">
+        <span class="player-track-title">{{ .title }}</span>
+        <span class="player-duration">{{ .duration }}</span>
+      </div>
+
+      <div class="player-waveform" id="waveform"></div>
+
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn" aria-label="播放">
+          <svg class="play-icon" viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+          <svg class="pause-icon" viewBox="0 0 16 16"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+        </button>
+        <span class="player-time"><span id="currentTime">00:00</span> / {{ .duration }}</span>
+        <div class="volume-wrap">
+          <svg class="volume-icon" viewBox="0 0 24 24"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 010 7.07" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 010 14.14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+        </div>
+      </div>
+    </div>
+    {{ with .file }}<audio id="mainAudio" src="{{ . }}" preload="metadata"></audio>{{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Body Content -->
+  <div class="content-body">
+    {{ .Content }}
+  </div>
+
+  <!-- Bonus Tracks -->
+  {{ with .Params.bonus_tracks }}
+  <div class="content-divider"></div>
+  {{ range $i, $t := . }}
+  <div class="player-container bonus-player">
+    <div class="player" data-bonus-index="{{ $i }}">
+      <div class="player-title-row">
+        <span class="player-track-title">{{ $t.title }}</span>
+        <span class="player-duration">{{ $t.duration }}</span>
+      </div>
+      <div class="player-waveform bonus-waveform"></div>
+      <div class="player-controls">
+        <button class="play-btn bonus-play-btn" aria-label="播放">
+          <svg class="play-icon" viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+          <svg class="pause-icon" viewBox="0 0 16 16"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+        </button>
+        <span class="player-time"><span class="bonus-current-time">00:00</span> / {{ $t.duration }}</span>
+        <div class="volume-wrap">
+          <svg class="volume-icon" viewBox="0 0 24 24"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 010 7.07" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 010 14.14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+        </div>
+      </div>
+    </div>
+    {{ with $t.file }}<audio class="bonus-audio" src="{{ . }}" preload="metadata"></audio>{{ end }}
+  </div>
+  {{ end }}
+  {{ end }}
+
+</section>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <p class="footer-cta">
+    如果這段聲音讓你想到什麼，或只是想說說你聽到了什麼，歡迎直接回覆這封信。每一封回信我都會讀。
+  </p>
+  <div class="footer-links">
+    {{ with .Site.Params.instagram }}<a href="{{ . }}" class="footer-link" target="_blank">Instagram</a>{{ end }}
+    <a href="{{ .Site.BaseURL }}" class="footer-link">Website</a>
+    <a href="/listening/" class="footer-link">過往期數</a>
+  </div>
+  <div class="footer-brand">White Moon &copy; {{ now.Year }}</div>
+</footer>
+
+<script>
+(function() {
+  // --- Ambient particles ---
+  const particlesEl = document.getElementById('particles');
+  if (particlesEl) {
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (8 + Math.random() * 15) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+      particlesEl.appendChild(p);
+    }
+  }
+
+  // --- Main player ---
+  const audio = document.getElementById('mainAudio');
+  const playBtn = document.getElementById('playBtn');
+  const player = document.getElementById('mainPlayer');
+  const waveformEl = document.getElementById('waveform');
+  const currentTimeEl = document.getElementById('currentTime');
+  if (!waveformEl) return;
+
+  // Generate waveform bars
+  const barCount = 80;
+  const bars = [];
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'waveform-bar';
+    const base = Math.sin(i * 0.15) * 0.3 + 0.4;
+    const noise = Math.random() * 0.4;
+    bar.style.height = Math.max(4, (base + noise) * 48) + 'px';
+    waveformEl.appendChild(bar);
+    bars.push(bar);
+  }
+
+  function updateBars(ratio) {
+    const idx = Math.floor(ratio * barCount);
+    bars.forEach((b, i) => b.classList.toggle('played', i <= idx));
+  }
+
+  function formatTime(s) {
+    const m = String(Math.floor(s / 60)).padStart(2, '0');
+    const sec = String(Math.floor(s % 60)).padStart(2, '0');
+    return m + ':' + sec;
+  }
+
+  if (audio) {
+    // Real audio mode
+    playBtn.addEventListener('click', () => {
+      // Pause all other players
+      document.querySelectorAll('.bonus-audio').forEach(a => { if (!a.paused) a.pause(); });
+      if (audio.paused) { audio.play(); } else { audio.pause(); }
+    });
+    audio.addEventListener('play', () => {
+      playBtn.classList.add('playing');
+      player.classList.add('is-playing');
+    });
+    audio.addEventListener('pause', () => {
+      playBtn.classList.remove('playing');
+      player.classList.remove('is-playing');
+    });
+    audio.addEventListener('timeupdate', () => {
+      const ratio = audio.currentTime / audio.duration;
+      updateBars(ratio);
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+    });
+    audio.addEventListener('ended', () => {
+      playBtn.classList.remove('playing');
+      player.classList.remove('is-playing');
+      updateBars(0);
+      currentTimeEl.textContent = '00:00';
+    });
+    waveformEl.addEventListener('click', (e) => {
+      const rect = waveformEl.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = ratio * audio.duration;
+    });
+    // Volume
+    const mainVol = player.querySelector('.volume-slider');
+    const mainVolIcon = player.querySelector('.volume-icon');
+    if (mainVol) {
+      audio.volume = parseFloat(mainVol.value);
+      mainVol.addEventListener('input', () => { audio.volume = parseFloat(mainVol.value); });
+      mainVolIcon.addEventListener('click', () => {
+        if (audio.volume > 0) { mainVol.dataset.prev = audio.volume; audio.volume = 0; mainVol.value = 0; }
+        else { audio.volume = parseFloat(mainVol.dataset.prev || 0.8); mainVol.value = audio.volume; }
+      });
+    }
+  } else {
+    // Demo mode (no audio file yet)
+    let isPlaying = false, progress = 0, interval;
+    const durationStr = player ? player.querySelector('.player-duration') : null;
+    const totalSec = durationStr ? parseDuration(durationStr.textContent) : 300;
+
+    function parseDuration(str) {
+      const parts = str.split(':');
+      return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    }
+
+    playBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      playBtn.classList.toggle('playing', isPlaying);
+      player.classList.toggle('is-playing', isPlaying);
+      if (isPlaying) {
+        interval = setInterval(() => {
+          progress += 0.15;
+          if (progress >= barCount) {
+            progress = 0; isPlaying = false;
+            playBtn.classList.remove('playing');
+            player.classList.remove('is-playing');
+            clearInterval(interval);
+            bars.forEach(b => b.classList.remove('played'));
+            currentTimeEl.textContent = '00:00';
+            return;
+          }
+          updateBars(Math.floor(progress));
+          currentTimeEl.textContent = formatTime((progress / barCount) * totalSec);
+        }, 200);
+      } else { clearInterval(interval); }
+    });
+
+    waveformEl.addEventListener('click', (e) => {
+      const rect = waveformEl.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      progress = ratio * barCount;
+      updateBars(Math.floor(progress));
+      currentTimeEl.textContent = formatTime(ratio * totalSec);
+    });
+  }
+
+  // --- Bonus players (full waveform) ---
+  const allAudios = [audio]; // track all audio elements for mutual exclusion
+
+  document.querySelectorAll('.bonus-player').forEach(container => {
+    const bPlayer = container.querySelector('.player');
+    const bBtn = container.querySelector('.bonus-play-btn');
+    const bWaveform = container.querySelector('.bonus-waveform');
+    const bTimeEl = container.querySelector('.bonus-current-time');
+    const bAudio = container.querySelector('.bonus-audio');
+
+    // Generate waveform bars
+    const bBars = [];
+    const seed = parseInt(bPlayer.dataset.bonusIndex || '0') + 1;
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'waveform-bar';
+      const base = Math.sin(i * 0.15 + seed * 2) * 0.3 + 0.4;
+      const noise = Math.random() * 0.4;
+      bar.style.height = Math.max(4, (base + noise) * 48) + 'px';
+      bWaveform.appendChild(bar);
+      bBars.push(bar);
+    }
+
+    function updateBonusBars(ratio) {
+      const idx = Math.floor(ratio * barCount);
+      bBars.forEach((b, i) => b.classList.toggle('played', i <= idx));
+    }
+
+    if (bAudio) {
+      allAudios.push(bAudio);
+
+      bBtn.addEventListener('click', () => {
+        // Pause all other players
+        allAudios.forEach(a => {
+          if (a && a !== bAudio && !a.paused) a.pause();
+        });
+        if (bAudio.paused) { bAudio.play(); } else { bAudio.pause(); }
+      });
+
+      bAudio.addEventListener('play', () => {
+        bBtn.classList.add('playing');
+        bPlayer.classList.add('is-playing');
+      });
+      bAudio.addEventListener('pause', () => {
+        bBtn.classList.remove('playing');
+        bPlayer.classList.remove('is-playing');
+      });
+      bAudio.addEventListener('timeupdate', () => {
+        const ratio = bAudio.currentTime / bAudio.duration;
+        updateBonusBars(ratio);
+        bTimeEl.textContent = formatTime(bAudio.currentTime);
+      });
+      bAudio.addEventListener('ended', () => {
+        bBtn.classList.remove('playing');
+        bPlayer.classList.remove('is-playing');
+        updateBonusBars(0);
+        bTimeEl.textContent = '00:00';
+      });
+      bWaveform.addEventListener('click', (e) => {
+        const rect = bWaveform.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        bAudio.currentTime = ratio * bAudio.duration;
+      });
+      // Volume
+      const bVol = container.querySelector('.volume-slider');
+      const bVolIcon = container.querySelector('.volume-icon');
+      if (bVol) {
+        bAudio.volume = parseFloat(bVol.value);
+        bVol.addEventListener('input', () => { bAudio.volume = parseFloat(bVol.value); });
+        bVolIcon.addEventListener('click', () => {
+          if (bAudio.volume > 0) { bVol.dataset.prev = bAudio.volume; bAudio.volume = 0; bVol.value = 0; }
+          else { bAudio.volume = parseFloat(bVol.dataset.prev || 0.8); bVol.value = bAudio.volume; }
+        });
+      }
+    }
+  });
+})();
+</script>
+
+{{ end }}

@@ -1,5 +1,7 @@
 <header class="site-header">
-  <a href="/" class="site-logo">White Moon</a>
+  <a href="/" class="site-logo">
+    <img src="/images/logo.png" srcset="/images/logo-1x.png 1x, /images/logo.png 2x" alt="WHITE MOON" class="site-logo-img">
+  </a>
   <nav class="site-nav" id="site-nav">
     {{ range .Site.Menus.main }}
       <a href="{{ .URL }}">{{ .Name }}</a>

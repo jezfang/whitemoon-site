@@ -19,4 +19,89 @@
   {{ .Content }}
 </div>
 
+{{ with .Params.tracks }}
+<div class="single-tracks container">
+  <div class="tracks-divider"></div>
+  <span class="tracks-label">Sound</span>
+  {{ range . }}
+  <div class="track-player" data-src="{{ .file }}">
+    <button class="track-play-btn" aria-label="播放">
+      <svg class="tp-play" viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+      <svg class="tp-pause" viewBox="0 0 16 16" style="display:none"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+    </button>
+    <div class="track-info">
+      <div class="track-title">{{ .title }}</div>
+      <div class="track-meta">{{ with .type }}{{ . }}{{ else }}Field Recording{{ end }} — {{ .duration }}</div>
+    </div>
+    <div class="track-progress">
+      <div class="track-progress-bar"></div>
+    </div>
+  </div>
+  {{ end }}
+</div>
+
+<script>
+(function() {
+  let currentAudio = null;
+  let currentPlayer = null;
+
+  document.querySelectorAll('.track-player').forEach(player => {
+    const btn = player.querySelector('.track-play-btn');
+    const src = player.dataset.src;
+    const progressWrap = player.querySelector('.track-progress');
+    const progressBar = player.querySelector('.track-progress-bar');
+    let audio = null;
+
+    if (!src) return;
+
+    btn.addEventListener('click', () => {
+      if (!audio) {
+        audio = new Audio(src);
+        audio.addEventListener('timeupdate', () => {
+          const ratio = audio.currentTime / audio.duration;
+          progressBar.style.width = (ratio * 100) + '%';
+        });
+        audio.addEventListener('ended', () => {
+          player.classList.remove('is-playing');
+          btn.querySelector('.tp-play').style.display = '';
+          btn.querySelector('.tp-pause').style.display = 'none';
+          progressBar.style.width = '0%';
+        });
+        progressWrap.addEventListener('click', (e) => {
+          const rect = progressWrap.getBoundingClientRect();
+          const ratio = (e.clientX - rect.left) / rect.width;
+          audio.currentTime = ratio * audio.duration;
+        });
+      }
+
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentPlayer) {
+          currentPlayer.classList.remove('is-playing');
+          currentPlayer.querySelector('.tp-play').style.display = '';
+          currentPlayer.querySelector('.tp-pause').style.display = 'none';
+          currentPlayer.querySelector('.track-progress-bar').style.width = '0%';
+        }
+      }
+
+      if (audio.paused) {
+        audio.play();
+        currentAudio = audio;
+        currentPlayer = player;
+        player.classList.add('is-playing');
+        btn.querySelector('.tp-play').style.display = 'none';
+        btn.querySelector('.tp-pause').style.display = '';
+      } else {
+        audio.pause();
+        player.classList.remove('is-playing');
+        btn.querySelector('.tp-play').style.display = '';
+        btn.querySelector('.tp-pause').style.display = 'none';
+      }
+    });
+  });
+})();
+</script>
+{{ end }}
+
 {{ end }}

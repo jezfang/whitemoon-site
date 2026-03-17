@@ -1,0 +1,36 @@
+{{ define "main" }}
+
+<nav>
+  <a href="{{ .Site.BaseURL }}" class="nav-brand">White Moon</a>
+  <span class="nav-label">Listening Space</span>
+</nav>
+
+<section class="archive-section">
+  <div class="archive-header">
+    <h1 class="archive-title">聆聽空間</h1>
+    <p class="archive-subtitle">每一期，一段聲音，一則來自田野的故事。</p>
+  </div>
+
+  <div class="archive-list">
+    {{ range sort .RegularPages "Date" "desc" }}
+    <a href="{{ .Permalink }}" class="archive-item">
+      <span class="archive-issue">vol. {{ .Params.issue }}</span>
+      <div class="archive-item-body">
+        <h2 class="archive-item-title">{{ .Title }}</h2>
+        {{ with .Params.subtitle }}<p class="archive-item-subtitle">{{ . }}</p>{{ end }}
+      </div>
+      <span class="archive-date">{{ .Date.Format "2006.01" }}</span>
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-links">
+    {{ with .Site.Params.instagram }}<a href="{{ . }}" class="footer-link" target="_blank">Instagram</a>{{ end }}
+    <a href="{{ .Site.BaseURL }}" class="footer-link">Website</a>
+  </div>
+  <div class="footer-brand">White Moon &copy; {{ now.Year }}</div>
+</footer>
+
+{{ end }}

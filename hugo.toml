@@ -2,12 +2,14 @@ baseURL = 'https://whitemoonboomboom.xyz/'
 languageCode = 'zh-TW'
 title = 'WHITE MOON'
 paginate = 12
+enableRobotsTXT = true
 
 [params]
   description = 'Immerse in the beauty of creativity, sound, and poetic tranquillity'
   instagram = 'https://www.instagram.com/whitemoonboomboom/'
   facebook = 'https://www.facebook.com/whitemoonboomboom/'
   calcom = ''
+  r2url = 'https://pub-53f3d2a38ef94673bfa76eeef5a94b0c.r2.dev'
 
 [menus]
   [[menus.main]]
@@ -27,9 +29,13 @@ paginate = 12
     url = '/testimonials/'
     weight = 4
   [[menus.main]]
+    name = 'Listening'
+    url = '/listening/'
+    weight = 5
+  [[menus.main]]
     name = 'Booking'
     url = '/booking/'
-    weight = 5
+    weight = 6
 
 [markup]
   [markup.goldmark]
